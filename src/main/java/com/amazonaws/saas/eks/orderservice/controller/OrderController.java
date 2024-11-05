@@ -1,5 +1,7 @@
 package com.amazonaws.saas.eks.orderservice.controller;
 
+import com.amazonaws.saas.eks.orderservice.config.AwsSecretsConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,8 +12,11 @@ import java.util.Map;
 @RestController
 public class OrderController {
 
+    @Autowired
+    private AwsSecretsConfig awsSecretsConfig;
     @GetMapping("/hello")
     public String sayHello() {
+        System.out.println(awsSecretsConfig.getAccessKey());
         return "Hello, World! this is Edgar - 1";
     }
 
