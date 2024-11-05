@@ -14,10 +14,12 @@
 	<version>0.0.2-SNAPSHOT</version>
 	<name>order-service</name>
 	<description>Manages e-commerce order lifecycles with scalable deployment on AWS</description>
+
 	<properties>
 		<java.version>21</java.version>
 		<spring-cloud-starter-aws-secrets-manager-config.version>2.4.4</spring-cloud-starter-aws-secrets-manager-config.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
