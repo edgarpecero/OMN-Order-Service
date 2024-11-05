@@ -1,5 +1,5 @@
 # Use a Maven image to build the app
-FROM maven:3.8.5-openjdk-17 AS build
+FROM maven:3.8.5-openjdk-21 AS build
 
 # Set the working directory
 WORKDIR /app
@@ -12,7 +12,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Start a new stage to reduce image size
-FROM openjdk:17-slim
+FROM openjdk:21-slim
 
 # Copy the JAR file into the service directory from the previous stage
 COPY --from=build /app/target/order-service.jar order-service.jar
