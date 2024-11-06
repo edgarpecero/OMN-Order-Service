@@ -90,7 +90,6 @@ public class OrderRepository {
     private static void populateIds(Order order) {
         if (!StringUtils.hasLength(order.getId())) {
             order.setId(String.valueOf(UUID.randomUUID()));
-            order.setOrderId("ORDER - " + UUID.randomUUID().toString());
         }
         if (order.getLineItems() != null) {
             order.getLineItems().forEach(lineItem -> {

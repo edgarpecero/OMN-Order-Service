@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.amazonaws.saas.eks</groupId>
 	<artifactId>order-service</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>order-service</name>
 	<description>Manages e-commerce order lifecycles with scalable deployment on AWS</description>
 
