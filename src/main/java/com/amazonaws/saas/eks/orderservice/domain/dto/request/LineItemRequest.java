@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LineItemRequest {
-    private String productId;
+    private String id;
     private String name;
     private int quantity;
     private double price;
