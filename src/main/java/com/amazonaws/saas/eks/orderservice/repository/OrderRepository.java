@@ -1,5 +1,6 @@
 package com.amazonaws.saas.eks.orderservice.repository;
 
+import com.amazonaws.saas.eks.orderservice.domain.model.customer.Customer;
 import com.amazonaws.saas.eks.orderservice.domain.model.order.Order;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +11,7 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Repository
@@ -24,6 +26,12 @@ public class OrderRepository {
 
     public Order save(Order order) {
         populateIds(order);
+        if (order.getCreated() == null) {
+            order.setCreated(Instant.now());
+        }
+        if (order.getModified() == null) {
+            order.setModified(Instant.now());
+        }
         try {
             table.putItem(order);
             return table.getItem(order);
@@ -37,7 +45,7 @@ public class OrderRepository {
     private static void populateIds(Order order) {
         if (!StringUtils.hasLength(order.getId())) {
             order.setId(String.valueOf(UUID.randomUUID()));
-            order.setOrderId(String.valueOf(UUID.randomUUID()));
+            order.setOrderId("ORDER - " + UUID.randomUUID().toString());
         }
         if (order.getLineItems() != null) {
             order.getLineItems().forEach(lineItem -> {
@@ -46,5 +54,10 @@ public class OrderRepository {
                 }
             });
         }
+        order.setCustomer(getHardcodedCustomer());
+    }
+
+    private static Customer getHardcodedCustomer() {
+        return  new Customer("CUSTOMER01", "Edgar Pecero", "edgar_pecero@hotmail.com");
     }
 }
