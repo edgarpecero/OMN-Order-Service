@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class LineItemResponse {
-    private String productId;
+    private String id;
     private String name;
     private int quantity;
     private double price;

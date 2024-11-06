@@ -14,7 +14,6 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbUpdat
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.Instant;
 
 @Data
 public class Order {
