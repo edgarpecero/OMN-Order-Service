@@ -5,7 +5,6 @@ import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateOrderRequest
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersResponse;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
 import com.amazonaws.saas.eks.orderservice.service.OrderService;
-import org.apache.http.auth.AuthSchemeProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
