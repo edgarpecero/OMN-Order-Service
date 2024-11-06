@@ -21,7 +21,7 @@ import java.util.List;
 @DynamoDbBean(converterProviders = {OrderConverterProvider.class, DefaultAttributeConverterProvider.class})
 @Data
 public class Order {
-    public static final String TABLE = "Order-OMN";
+    public static final String TABLE = "ORDERS-OMN";
     private String entity = EntityType.ORDERS.getLabel();
     private String id;
     private String orderId;
