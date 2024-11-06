@@ -5,8 +5,7 @@ import lombok.Getter;
 @Getter
 public enum EntityType {
     ORDERS("ORDERS"),
-    LINEITEM("LINEITEM"),
-    CUSTOMER("CUSTOMER");
+    COUNTER("COUNTER");
 
     private final String label;
 
