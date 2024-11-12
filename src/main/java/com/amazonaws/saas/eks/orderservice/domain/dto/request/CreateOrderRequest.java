@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateOrderRequest {
     private List<LineItemRequest> lineItems = new ArrayList<>();
-    private Customer customer;
+    private CreateCustomerRequest customer;
 }

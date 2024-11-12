@@ -1,54 +1,49 @@
 package com.amazonaws.saas.eks.orderservice.service;
 
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateOrderRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.UpdateOrderRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersResponse;
-import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
+import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateCustomerRequest;
+import com.amazonaws.saas.eks.orderservice.domain.dto.request.UpdateCustomerRequest;
+import com.amazonaws.saas.eks.orderservice.domain.dto.response.CustomerResponse;
+import com.amazonaws.saas.eks.orderservice.domain.model.customer.Customer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatch;
 
-public interface OrderService {
+public interface CustomerService {
 
     /**
-     * Creates a new Order
-     * @param request {@link CreateOrderRequest}
-     * @return {@link OrderResponse}
+     * Creates a new Customer
+     * @param request {@link CreateCustomerRequest}
+     * @return {@link CustomerResponse}
      */
-    OrderResponse create(CreateOrderRequest request);
+    CustomerResponse create(CreateCustomerRequest request);
 
     /**
-     * Retrieves a single Order by ID
-     * @param orderId Order ID
-     * @return {@link OrderResponse}
+     * Retrieves a single Customer by ID
+     * @param customerId Customer ID
+     * @return {@link CustomerResponse}
      */
-    OrderResponse getById(String orderId);
+    Customer getById(String customerId);
 
     /**
-     * Soft deletes an Order
-     * @param orderId Order ID
+     * Soft deletes a Customer
+     * @param customerId Customer ID
+     * @return {@link CustomerResponse}
      */
-    OrderResponse deleteById(String orderId);
+    CustomerResponse deleteById(String customerId);
 
     /**
-     * Updates an Order
-     * @param orderId Order ID
-     * @param request {@link UpdateOrderRequest}
-     * @return {@link OrderResponse}
+     * Updates a Customer
+     * @param customerId Customer ID
+     * @param request {@link UpdateCustomerRequest}
+     * @return {@link CustomerResponse}
      */
-    OrderResponse update(String orderId, UpdateOrderRequest request);
+    CustomerResponse update(String customerId, UpdateCustomerRequest request);
 
     /**
-     * Applies a Patch to an Order. See <a href="https://www.baeldung.com/spring-rest-json-patch">documentation</a>
-     * Update LineItems
-     * @param orderId Order ID
+     * Applies a Patch to a Customer. See <a href="https://www.baeldung.com/spring-rest-json-patch">documentation</a>
+     * Update Customer details
+     * @param customerId Customer ID
      * @param patch {@link JsonPatch}
-     * @return {@link OrderResponse}
+     * @return {@link CustomerResponse}
      */
-    OrderResponse patch(String orderId, JsonPatch patch) throws JsonProcessingException;
-
-    /**
-     * Searches for Purchase Orders
-     * @return {@link ListOrdersResponse}
-     */
-    ListOrdersResponse getAll();
+    CustomerResponse patch(String customerId, JsonPatch patch) throws JsonProcessingException;
 }

@@ -15,8 +15,8 @@ public class OrderResponse {
     private String id;
     private String orderId;
     private String status = OrderStatus.PROCESSING.toString();
-    private List<LineItem> lineItems = new ArrayList<>();
-    private Customer customer;
+    private List<LineItemResponse> lineItems = new ArrayList<>();
+    private CustomerResponse customer;
     private double totalAmount;
     private Instant created;
     private Instant modified;

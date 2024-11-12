@@ -27,7 +27,7 @@ public interface OrderService {
      * Soft deletes an Order
      * @param orderId Order ID
      */
-    void deleteById(String orderId);
+    OrderResponse deleteById(String orderId);
 
     /**
      * Updates an Order

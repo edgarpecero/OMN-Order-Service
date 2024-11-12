@@ -1,23 +1,23 @@
 package com.amazonaws.saas.eks.orderservice.mapper;
 
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateOrderRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.LineItemRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.UpdateOrderRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
-import com.amazonaws.saas.eks.orderservice.domain.model.lineitem.LineItem;
-import com.amazonaws.saas.eks.orderservice.domain.model.order.Order;
+import com.amazonaws.saas.eks.orderservice.domain.dto.request.*;
+import com.amazonaws.saas.eks.orderservice.domain.dto.response.CustomerResponse;
+import com.amazonaws.saas.eks.orderservice.domain.model.customer.Customer;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public interface OrderMapper {
-    OrderMapper INSTANCE = Mappers.getMapper(OrderMapper.class);
+public interface CustomerMapper {
+    CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 
-    OrderResponse orderToOrderResponse(Order order);
+    CustomerResponse customerToCustomerResponse(Customer customer);
 
-    Order updateOrderRequestToOrder(UpdateOrderRequest request);
+    Customer customerResponseToCustomer(CustomerResponse customer);
 
-    Order createOrderRequestToOrder(CreateOrderRequest request);
+    Customer updateCustomerRequestToCustomer(UpdateCustomerRequest request);
 
-    LineItem lineItemRequestToLineItem(LineItemRequest lineItemRequest);
+    @Mapping(target="email", source="email")
+    @Mapping(target="id", source="email")
+    Customer createCustomerRequestToCustomer(CreateCustomerRequest request);
 }

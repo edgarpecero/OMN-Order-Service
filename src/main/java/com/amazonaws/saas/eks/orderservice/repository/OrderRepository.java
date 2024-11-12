@@ -4,6 +4,7 @@ import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersRespons
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
 import com.amazonaws.saas.eks.orderservice.domain.model.customer.Customer;
 import com.amazonaws.saas.eks.orderservice.domain.model.enums.EntityType;
+import com.amazonaws.saas.eks.orderservice.domain.model.enums.OrderStatus;
 import com.amazonaws.saas.eks.orderservice.domain.model.order.Order;
 import com.amazonaws.saas.eks.orderservice.mapper.OrderMapper;
 import org.apache.logging.log4j.LogManager;
@@ -63,10 +64,16 @@ public class OrderRepository {
     public Order update(Order order) {
         try {
             Order model = findById(order.getId());
-            model.setTotalAmount(order.getTotalAmount());
+            if (!order.getStatus().equals(OrderStatus.CANCELLED.toString())) {
+                model.setTotalAmount(order.getTotalAmount());
+            }
+            if(order.getOrderId() != null) {
+                model.setOrderId(order.getOrderId());
+            }
             model.setStatus(order.getStatus());
             model.setModified(new Date().toInstant());
-            return table.updateItem(order);
+            table.updateItem(model);
+            return table.getItem(model);
         } catch (Exception e) {
             String message = String.format("Update Order by ID failed %s", e.getMessage());
             LOGGER.error(message);
@@ -105,7 +112,7 @@ public class OrderRepository {
         try {
             table.deleteItem(getKey(orderId));
         } catch (Exception e) {
-            String message = String.format("Delete Purchase Order failed %s", e.getMessage());
+            String message = String.format("Delete Order failed %s", e.getMessage());
             LOGGER.error(message);
             throw new RuntimeException(message);
         }
@@ -122,11 +129,6 @@ public class OrderRepository {
                 }
             });
         }
-        order.setCustomer(getHardcodedCustomer());
-    }
-
-    private static Customer getHardcodedCustomer() {
-        return  new Customer("CUSTOMER01", "Edgar Pecero", "edgar_pecero@hotmail.com");
     }
 
     private static Key getKey(String orderId) {
