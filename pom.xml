@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.amazonaws.saas.eks</groupId>
 	<artifactId>order-service</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<name>order-service</name>
 	<description>Manages e-commerce order lifecycles with scalable deployment on AWS</description>
 
@@ -20,6 +20,9 @@
 		<aws-java-sdk.version>2.28.29</aws-java-sdk.version>
 		<lombok.version>1.18.34</lombok.version>
 		<org.mapstruct.version>1.6.2</org.mapstruct.version>
+		<hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
+		<json-patch.version>1.13</json-patch.version>
 		<spring-cloud-starter-aws-secrets-manager-config.version>2.4.4</spring-cloud-starter-aws-secrets-manager-config.version>
 	</properties>
 
@@ -29,6 +32,13 @@
 				<groupId>software.amazon.awssdk</groupId>
 				<artifactId>bom</artifactId>
 				<version>${aws-java-sdk.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -54,6 +64,10 @@
 			<artifactId>dynamodb-enhanced</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>sns</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.awspring.cloud</groupId>
 			<artifactId>spring-cloud-starter-aws-secrets-manager-config</artifactId>
 			<version>${spring-cloud-starter-aws-secrets-manager-config.version}</version>
@@ -68,6 +82,20 @@
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+				<groupId>org.hibernate.validator</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate-validator.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.java-json-tools</groupId>
+			<artifactId>json-patch</artifactId>
+			<version>${json-patch.version}</version>
 		</dependency>
 	</dependencies>
 

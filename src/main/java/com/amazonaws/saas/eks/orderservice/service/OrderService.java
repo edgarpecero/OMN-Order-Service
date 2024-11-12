@@ -4,6 +4,8 @@ import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateOrderRequest
 import com.amazonaws.saas.eks.orderservice.domain.dto.request.UpdateOrderRequest;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersResponse;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatch;
 
 public interface OrderService {
 
@@ -25,7 +27,7 @@ public interface OrderService {
      * Soft deletes an Order
      * @param orderId Order ID
      */
-    void deleteById(String orderId);
+    OrderResponse deleteById(String orderId);
 
     /**
      * Updates an Order
@@ -34,6 +36,15 @@ public interface OrderService {
      * @return {@link OrderResponse}
      */
     OrderResponse update(String orderId, UpdateOrderRequest request);
+
+    /**
+     * Applies a Patch to an Order. See <a href="https://www.baeldung.com/spring-rest-json-patch">documentation</a>
+     * Update LineItems
+     * @param orderId Order ID
+     * @param patch {@link JsonPatch}
+     * @return {@link OrderResponse}
+     */
+    OrderResponse patch(String orderId, JsonPatch patch) throws JsonProcessingException;
 
     /**
      * Searches for Purchase Orders

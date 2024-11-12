@@ -45,9 +45,9 @@ public class OrderController {
     }
 
     @DeleteMapping(value = "/orders/{orderId}", produces = {MediaType.APPLICATION_JSON_VALUE })
-    public void deleteOrder(@PathVariable String orderId) {
+    public OrderResponse deleteOrder(@PathVariable String orderId) {
         try {
-            service.deleteById(orderId);
+            return service.deleteById(orderId);
         } catch (Exception e) {
             LOGGER.error("Error deleting Order. %s", e);
             throw e;

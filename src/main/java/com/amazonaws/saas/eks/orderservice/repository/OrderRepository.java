@@ -4,6 +4,7 @@ import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersRespons
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
 import com.amazonaws.saas.eks.orderservice.domain.model.customer.Customer;
 import com.amazonaws.saas.eks.orderservice.domain.model.enums.EntityType;
+import com.amazonaws.saas.eks.orderservice.domain.model.enums.OrderStatus;
 import com.amazonaws.saas.eks.orderservice.domain.model.order.Order;
 import com.amazonaws.saas.eks.orderservice.mapper.OrderMapper;
 import org.apache.logging.log4j.LogManager;
@@ -18,6 +19,7 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,7 +27,6 @@ import java.util.stream.Collectors;
 @Repository
 public class OrderRepository {
     private static final Logger LOGGER = LogManager.getLogger(OrderRepository.class);
-
     private final DynamoDbTable<Order> table;
 
     public OrderRepository(DynamoDbEnhancedClient client) {
@@ -46,6 +47,36 @@ public class OrderRepository {
         } catch (DynamoDbException e) {
             String message = "Failed to save order";
             LOGGER.error(message, e);
+            throw new RuntimeException(message);
+        }
+    }
+
+    public Order findById(String orderId) {
+        try {
+            return table.getItem(getKey(orderId));
+        } catch (Exception e) {
+            String message = String.format("Get Order by ID failed %s",  e.getMessage());
+            LOGGER.error(message);
+            throw new RuntimeException(message);
+        }
+    }
+
+    public Order update(Order order) {
+        try {
+            Order model = findById(order.getId());
+            if (!order.getStatus().equals(OrderStatus.CANCELLED.toString())) {
+                model.setTotalAmount(order.getTotalAmount());
+            }
+            if(order.getOrderId() != null) {
+                model.setOrderId(order.getOrderId());
+            }
+            model.setStatus(order.getStatus());
+            model.setModified(new Date().toInstant());
+            table.updateItem(model);
+            return table.getItem(model);
+        } catch (Exception e) {
+            String message = String.format("Update Order by ID failed %s", e.getMessage());
+            LOGGER.error(message);
             throw new RuntimeException(message);
         }
     }
@@ -81,7 +112,7 @@ public class OrderRepository {
         try {
             table.deleteItem(getKey(orderId));
         } catch (Exception e) {
-            String message = String.format("Delete Purchase Order failed %s", e.getMessage());
+            String message = String.format("Delete Order failed %s", e.getMessage());
             LOGGER.error(message);
             throw new RuntimeException(message);
         }
@@ -98,11 +129,6 @@ public class OrderRepository {
                 }
             });
         }
-        order.setCustomer(getHardcodedCustomer());
-    }
-
-    private static Customer getHardcodedCustomer() {
-        return  new Customer("CUSTOMER01", "Edgar Pecero", "edgar_pecero@hotmail.com");
     }
 
     private static Key getKey(String orderId) {
