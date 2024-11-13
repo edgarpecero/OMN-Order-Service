@@ -1,10 +1,7 @@
 package com.amazonaws.saas.eks.orderservice.service.impl;
 
 import com.amazonaws.saas.eks.orderservice.client.notifications.ses.SESServiceClient;
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateCustomerRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateOrderRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateOrderTableRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.UpdateOrderRequest;
+import com.amazonaws.saas.eks.orderservice.domain.dto.request.*;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersResponse;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersTableResponse;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
@@ -85,6 +82,22 @@ public class OrderServiceImpl implements OrderService {
 
     public void deleteById(Long orderId) {
         repository.deleteById(orderId);
+    }
+
+    @Override
+    public OrderTableResponse updateOrder(Long orderId, UpdateOrderTableRequest request) {
+        Optional<OrderTable> orderTableOptional = repository.findById(orderId);
+        if (orderTableOptional.isPresent()) {
+            OrderTable orderTable = orderTableOptional.get();
+            orderTable.setOrderId(request.getOrderId());
+            orderTable.setStatus(request.getStatus());
+            calculateTotalAmount(orderTable);
+
+            OrderTable updatedOrder = repository.save(orderTable);
+            return OrderMapper.INSTANCE.orderTableToOrderTableResponse(updatedOrder);
+        } else {
+            throw new RuntimeException("Order not found for update");
+        }
     }
 
     private void calculateTotalAmount(OrderTable order) {

@@ -1,6 +1,7 @@
 package com.amazonaws.saas.eks.orderservice.service;
 
 import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateOrderTableRequest;
+import com.amazonaws.saas.eks.orderservice.domain.dto.request.UpdateOrderTableRequest;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersResponse;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersTableResponse;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
@@ -43,6 +44,6 @@ public interface OrderService {
      * @param request New order details
      * @return {@link OrderResponse} Updated order details
      */
-    OrderTableResponse updateOrder(Long orderId, CreateOrderTableRequest request);
+    OrderTableResponse updateOrder(Long orderId, UpdateOrderTableRequest request);
 }
 
