@@ -1,11 +1,11 @@
 package com.amazonaws.saas.eks.orderservice.mapper;
 
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateOrderRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.LineItemRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.UpdateOrderRequest;
+import com.amazonaws.saas.eks.orderservice.domain.dto.request.*;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
+import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderTableResponse;
 import com.amazonaws.saas.eks.orderservice.domain.model.lineitem.LineItem;
 import com.amazonaws.saas.eks.orderservice.domain.model.order.Order;
+import com.amazonaws.saas.eks.orderservice.domain.model.order.OrderTable;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,4 +20,9 @@ public interface OrderMapper {
     Order createOrderRequestToOrder(CreateOrderRequest request);
 
     LineItem lineItemRequestToLineItem(LineItemRequest lineItemRequest);
+
+    //JPA implementation
+    OrderTableResponse orderTableToOrderTableResponse(OrderTable order);
+    OrderTable createOrderTableRequestToOrderTable(CreateOrderTableRequest request);
+    OrderTable createOrderTableRequestToOrderTable(UpdateOrderTableRequest request);
 }
