@@ -1,8 +1,12 @@
-# OrderWave Backend
+# Order Service Backend
+
+Application URL: http://www.edgar-omn.com.s3-website-us-west-1.amazonaws.com/
 
 React Frontend Repository: https://github.com/edgarpecero/OMN-Order-Service-React-App
 
-**OrderWave Backend** is the server-side implementation of the Order Management and Notification platform, built using a microservices architecture. This project is designed to manage customer orders and send notifications based on order statuses, with an emphasis on scalability, resilience, and high availability.
+Notification Service Repository: https://github.com/edgarpecero/OMN-Notification-Service
+
+** Order Service Backend Backend** is the server-side implementation of the Order Management and Notification platform, built using a microservices architecture. This project is designed to manage customer orders and send notifications based on order statuses, with an emphasis on scalability, resilience, and high availability.
 
 The backend comprises two core services: **Order Service** and **Notification Service**, both of which communicate via message queues and are deployed in containers using Docker and Kubernetes. This solution adheres to Site Reliability Engineering (SRE) best practices, ensuring the platform is robust and performant.
 
