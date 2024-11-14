@@ -24,19 +24,13 @@ public interface OrderService {
      * @param orderId Order ID
      * @return {@link OrderResponse} Order details
      */
-    Optional<OrderTableResponse>  findById(Long orderId);
+    OrderTableResponse  findById(Long orderId);
 
     /**
      * Retrieves all orders.
      * @return {@link ListOrdersTableResponse} List of all orders
      */
     ListOrdersTableResponse findAll();
-
-    /**
-     * Deletes an Order by ID.
-     * @param orderId Order ID
-     */
-    void deleteById(Long orderId);
 
     /**
      * Updates an existing Order.

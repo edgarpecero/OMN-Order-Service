@@ -20,6 +20,7 @@ import com.amazonaws.saas.eks.orderservice.repository.OrderRepository;
 import com.amazonaws.saas.eks.orderservice.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatch;
+import jakarta.persistence.EntityNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,21 +50,30 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderTableResponse save(CreateOrderTableRequest request) {
+        // Maps the CreateOrderRequest to an Order entity using the OrderMapper
         OrderTable order = OrderMapper.INSTANCE.createOrderTableRequestToOrderTable(request);
+
+        // Retrieves the latest order counter and assigns the next sequential order number
+        Long latestCounterNumber = getLatestCounterNumber();
+        order.setOrderId(String.format("%s%s", ORDER_PREFIX, latestCounterNumber));
+
+        // Calculates the total amount for the order based on line items
         calculateTotalAmount(order);
 
+        // Registers the new customer's email for notifications
         registerEmail(order.getCustomer());
 
         OrderTable savedOrder = repository.save(order);
 
+        // Maps the saved Order entity to an OrderResponse and returns it
         return OrderMapper.INSTANCE.orderTableToOrderTableResponse(savedOrder);
     }
 
     @Override
-    public Optional<OrderTableResponse> findById(Long orderId) {
-        Optional<OrderTable> order = repository.findById(orderId);
-        System.out.println(order);
-        return order.map(OrderMapper.INSTANCE::orderTableToOrderTableResponse);
+    public OrderTableResponse findById(Long id) {
+        OrderTable order = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id " + id));
+        return OrderMapper.INSTANCE.orderTableToOrderTableResponse(order);
     }
 
     @Override
@@ -78,10 +88,6 @@ public class OrderServiceImpl implements OrderService {
         response.setCount(orderResponses.size());
 
         return response;
-    }
-
-    public void deleteById(Long orderId) {
-        repository.deleteById(orderId);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersRespons
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersTableResponse;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderTableResponse;
+import com.amazonaws.saas.eks.orderservice.repository.OrderRepository;
 import com.amazonaws.saas.eks.orderservice.service.OrderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +24,8 @@ public class OrderController {
     private AwsSecretsConfig awsSecretsConfig;
     @Autowired
     private OrderService service;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @PostMapping("/orders")
     public OrderTableResponse createOrder(@RequestBody CreateOrderTableRequest request) {
@@ -44,10 +47,14 @@ public class OrderController {
         }
     }
 
+    /**
+     * Deletes an Order by ID.
+     * @param orderId Order ID
+     */
     @DeleteMapping(value = "/orders/{orderId}", produces = {MediaType.APPLICATION_JSON_VALUE })
     public void deleteOrder(@PathVariable Long orderId) {
         try {
-            service.deleteById(orderId);
+            orderRepository.deleteById(orderId);
         } catch (Exception e) {
             LOGGER.error("Error deleting Order. %s", e);
             throw e;
@@ -55,7 +62,7 @@ public class OrderController {
     }
 
     @GetMapping(value = "/orders/{orderId}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Optional<OrderTableResponse> findById(@PathVariable Long orderId) {
+    public OrderTableResponse findById(@PathVariable Long orderId) {
         try {
             return service.findById(orderId);
         } catch (Exception e) {
