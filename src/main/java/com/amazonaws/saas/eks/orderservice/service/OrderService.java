@@ -1,54 +1,43 @@
 package com.amazonaws.saas.eks.orderservice.service;
 
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateOrderRequest;
-import com.amazonaws.saas.eks.orderservice.domain.dto.request.UpdateOrderRequest;
+import com.amazonaws.saas.eks.orderservice.domain.dto.request.CreateOrderTableRequest;
+import com.amazonaws.saas.eks.orderservice.domain.dto.request.UpdateOrderTableRequest;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersResponse;
+import com.amazonaws.saas.eks.orderservice.domain.dto.response.ListOrdersTableResponse;
 import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.fge.jsonpatch.JsonPatch;
+import com.amazonaws.saas.eks.orderservice.domain.dto.response.OrderTableResponse;
+import com.amazonaws.saas.eks.orderservice.domain.model.order.OrderTable;
+
+import java.util.Optional;
 
 public interface OrderService {
 
     /**
-     * Creates a new Order
-     * @param request {@link CreateOrderRequest}
-     * @return {@link OrderResponse}
+     * Saves a new order.
+     * @param request Order data to be saved
+     * @return {@link OrderResponse} Saved order details
      */
-    OrderResponse create(CreateOrderRequest request);
+    OrderTableResponse save(CreateOrderTableRequest request);
 
     /**
-     * Retrieves a single Order by ID
+     * Retrieves a single Order by ID.
      * @param orderId Order ID
-     * @return {@link OrderResponse}
+     * @return {@link OrderResponse} Order details
      */
-    OrderResponse getById(String orderId);
+    OrderTableResponse  findById(Long orderId);
 
     /**
-     * Soft deletes an Order
-     * @param orderId Order ID
+     * Retrieves all orders.
+     * @return {@link ListOrdersTableResponse} List of all orders
      */
-    OrderResponse deleteById(String orderId);
+    ListOrdersTableResponse findAll();
 
     /**
-     * Updates an Order
-     * @param orderId Order ID
-     * @param request {@link UpdateOrderRequest}
-     * @return {@link OrderResponse}
+     * Updates an existing Order.
+     * @param orderId Order ID to be updated
+     * @param request New order details
+     * @return {@link OrderResponse} Updated order details
      */
-    OrderResponse update(String orderId, UpdateOrderRequest request);
-
-    /**
-     * Applies a Patch to an Order. See <a href="https://www.baeldung.com/spring-rest-json-patch">documentation</a>
-     * Update LineItems
-     * @param orderId Order ID
-     * @param patch {@link JsonPatch}
-     * @return {@link OrderResponse}
-     */
-    OrderResponse patch(String orderId, JsonPatch patch) throws JsonProcessingException;
-
-    /**
-     * Searches for Purchase Orders
-     * @return {@link ListOrdersResponse}
-     */
-    ListOrdersResponse getAll();
+    OrderTableResponse updateOrder(Long orderId, UpdateOrderTableRequest request);
 }
+
