@@ -20,7 +20,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponse create(CreateCustomerRequest request) {
         Customer customer = CustomerMapper.INSTANCE.createCustomerRequestToCustomer(request);
-        return CustomerMapper.INSTANCE.customerToCustomerResponse(repository.save(customer));
+        Customer savedCustomer = repository.save(customer);
+        return CustomerMapper.INSTANCE.customerToCustomerResponse(repository.save(savedCustomer));
     }
 
     @Override
